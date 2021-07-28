@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        fetch
+    </title>
+    <style>
+        #err{
+            margin-left: 20%;
+            margin-top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id = "movie">
+<button onclick="getMoive()">Search</button>
+<div id="err"></div>
+</body>
+
+</html>
+<script>
+// http://www.omdbapi.com/?apikey=[yourkey]&
+// http://www.omdbapi.com/?t=Avengers&plot=full
+// if -> 8.5 greater --> recommened with movie details
+// else if --> < 8.5 smaller --> do not show recommened , only show movie details
+// else movie not exist --> show image telling movie not exist error
+async function getMoive() {
+    let movie = document.getElementById("movie").value;
+    try {
+        // movie title
+        // let res = await fetch (`https://www.omdbapi.com/?apikey=62aaaa6e&?t=${movie}`);
+
+        //  By id
+        // let res = await fetch (`http://www.omdbapi.com/?apikey=62aaaa6e&t=${movie}`)
+        
+
+        let res = await fetch (`http://www.omdbapi.com/?apikey=62aaaa6e&t=${movie}`)
+        let data = await res.json();
+        if (data.Response == "True"){
+            var output = ""
+            for (key in data) {
+                output += `${key} : ${data[key]}` + "<br>"
+            }
+            let div = document.createElement("div");
+            div.innerHTML = output;
+            document.getElementById("err").append(div);
+            // console.log(data);
+        }
+        else{
+        let img = document.createElement("img");
+        img.setAttribute("src","https://i.redd.it/ds1luav7dl851.jpg")
+        document.getElementById("err").append(img);
+        }
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+
+
+</script>
